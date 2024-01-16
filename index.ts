@@ -23,7 +23,8 @@ async function main()
     }
     catch (e: any)
     {
-        throw new Error("Compilation error: " + e.message);
+        console.error("Compilation error: " + e.message);
+        return;
     }
 
     var output = "";
