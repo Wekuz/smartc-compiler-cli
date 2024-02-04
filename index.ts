@@ -8,8 +8,9 @@ async function main()
     program.name("smartc-compiler-cli")
         .description("CLI SmartC compiler")
         .version('0.1.0', '-v, --version', 'output the current version');
-    program.requiredOption("-f, --file <filepath>", "path to a file to compile")
-        .option("--format [asm|byte]", "specify output format", "asm");
+    program.requiredOption("-f, --file <filepath>", "path to the file containing SmartC code")
+        .option("--format [asm|byte]", "specify output format", "asm")
+        .option("-o, --output <filepath>", "path to a file to write the output to");
     program.parse();
 
     const filePath = program.opts().file;
@@ -44,7 +45,14 @@ async function main()
         throw new Error("Unsupported output format: " + program.opts().format);
     }
 
-    console.log(output);
+    if (program.opts().output != undefined)
+    {
+        await fs.writeFile(program.opts().output, output, "utf-8");
+    }
+    else
+    {
+        console.log(output);
+    }
 }
 
 main();
